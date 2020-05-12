@@ -1,0 +1,9 @@
+helm install metrics stable/kube-state-metrics --namespace elk
+kubectl get pods -n elk
+helm install metricbeat elastic/metricbeat --namespace elk -f values.yaml
+$ kubectl get pods --namespace=elk -l app=metricbeat-metricbeat -w
+kubectl get ingress -n elk
+kubectl describe ingress kibana-kibana -n elk
+kubectl exec -it -n elk metricbeat-metricbeat-pss9z -- /bin/bash
+./metricbeat setup --dashboards -E setup.kibana.host=kibana-kibana:5601
+exit
